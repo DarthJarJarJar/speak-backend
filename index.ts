@@ -9,4 +9,20 @@ app.get('/', async(_, res) => {
     res.json(users)
 })
 
-const server = app.listen(3000)
+
+app.use(express.json())
+app.post('/user', async(req, res) => {
+   console.log("hi")
+    console.log(req.body)
+    const { name, email } = req.body
+    const user = await prisma.user.create({
+        data: {
+            name,
+            email
+        }
+    })
+    res.json(user)
+})
+
+
+const server = app.listen(3000, () => console.log("Running server"))
