@@ -5,24 +5,26 @@ const prisma = new PrismaClient()
 const app = express()
 
 app.get('/', async(_, res) => {
-    const users = await prisma.user.findMany()
-    res.json(users)
+    const words = await prisma.word.findMany()
+    res.json(words)
 })
 
 
 app.use(express.json())
-app.post('/user', async(req, res) => {
-   console.log("hi")
+app.post('/word', async(req, res) => {
+   
     console.log(req.body)
-    const { name, email } = req.body
-    const user = await prisma.user.create({
+    const { title, audio, image } = req.body
+    const word = await prisma.word.create({
         data: {
-            name,
-            email
+            title,
+            audio,
+            image
         }
     })
-    res.json(user)
+    res.json(word)
 })
+
 
 
 const server = app.listen(3000, () => console.log("Running server"))
