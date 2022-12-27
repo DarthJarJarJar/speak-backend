@@ -27,15 +27,15 @@ model Post {
 }
 
 model Word {
-  id      Int     @id @default(autoincrement())
-  title   String  
-  audio   String
-  image   String
+  id        Int       @id @default(autoincrement())
+  title     String  
+  audio     String
+  image     String
+
 }
 
 model Category {
   id          Int     @id @default(autoincrement())
   name        String
-  thumbnail   String   
-
+  thumbnail   String  
 }

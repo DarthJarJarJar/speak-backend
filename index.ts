@@ -1,8 +1,15 @@
 import express from 'express'
 import { PrismaClient } from '@prisma/client'
+const cors = require('cors')
 
 const prisma = new PrismaClient()
 const app = express()
+
+app.use(cors({
+    origin: 'http://localhost:5173'
+  }));
+  
+  
 
 app.get('/', async(_, res) => {
     const words = await prisma.word.findMany()
@@ -23,6 +30,44 @@ app.post('/word', async(req, res) => {
         }
     })
     res.json(word)
+})
+
+app.put('/word/:id', async (req, res) => {
+    let id = req.params.id
+    const { title, audio, image } = req.body
+    const word = await prisma.word.update({
+        where: {
+            id: +id
+        },
+        data: {
+            title,
+            image,
+            audio
+        }
+    })
+    res.json(word)
+})
+
+app.delete('/word/:id',async (req, res) => {
+    let id = +req.params.id
+    const word = await prisma.word.delete({
+        where: {
+            id
+        }
+    })
+    res.json(word)
+})
+
+app.post('/category',async (req, res) => {
+    const { name, thumbnail } = req.body
+    const category = await prisma.category.create({
+        data: {
+            name,
+            thumbnail
+        }
+    })
+    res.json(category)
+
 })
 
 
