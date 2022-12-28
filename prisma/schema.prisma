@@ -31,6 +31,8 @@ model Word {
   title     String  
   audio     String
   image     String
+  catID     Int       @default(0)
+  category  Category  @relation(fields: [catID], references: [id])   
 
 }
 
@@ -38,4 +40,5 @@ model Category {
   id          Int     @id @default(autoincrement())
   name        String
   thumbnail   String  
+  words       Word[]
 }

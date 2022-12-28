@@ -21,12 +21,13 @@ app.use(express.json())
 app.post('/word', async(req, res) => {
    
     console.log(req.body)
-    const { title, audio, image } = req.body
+    const { title, audio, image, catID } = req.body
     const word = await prisma.word.create({
         data: {
             title,
             audio,
-            image
+            image,
+            catID
         }
     })
     res.json(word)
@@ -34,7 +35,7 @@ app.post('/word', async(req, res) => {
 
 app.put('/word/:id', async (req, res) => {
     let id = req.params.id
-    const { title, audio, image } = req.body
+    const { title, audio, image, catID } = req.body
     const word = await prisma.word.update({
         where: {
             id: +id
@@ -42,7 +43,8 @@ app.put('/word/:id', async (req, res) => {
         data: {
             title,
             image,
-            audio
+            audio,
+            catID
         }
     })
     res.json(word)
