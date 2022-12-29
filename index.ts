@@ -150,4 +150,4 @@ app.delete('/category/:id', async (req, res) => {
 
 
 
-const server = app.listen(3000, () => console.log("Running server"))
+const server = app.listen(5174, () => console.log("Running server"))

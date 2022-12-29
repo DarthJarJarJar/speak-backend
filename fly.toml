@@ -1,15 +1,11 @@
-# fly.toml file generated for speak-api on 2022-12-29T09:47:09-05:00
+# fly.toml file generated for speak-api on 2022-12-29T10:17:20-05:00
 
 app = "speak-api"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
-[build]
-  builder = "heroku/buildpacks:20"
-
 [env]
-  PORT = "8080"
 
 [experimental]
   allowed_public_ports = []
