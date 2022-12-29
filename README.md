@@ -1,3 +1,3 @@
 # speak-backend
 
-Express + Typescript + Prisma(SQLite)
+Express + Typescript + Prisma(Postgres)
