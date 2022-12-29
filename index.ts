@@ -22,54 +22,130 @@ app.post('/word', async(req, res) => {
    
     console.log(req.body)
     const { title, audio, image, catID } = req.body
-    const word = await prisma.word.create({
-        data: {
-            title,
-            audio,
-            image,
-            catID
-        }
-    })
-    res.json(word)
+    try {
+        const word = await prisma.word.create({
+            data: {
+                title,
+                audio,
+                image,
+                catID
+            }
+        })
+        res.json(word)
+    } catch {
+        res.status(500).send('Something broke!')
+    }
+    
 })
 
 app.put('/word/:id', async (req, res) => {
     let id = req.params.id
     const { title, audio, image, catID } = req.body
-    const word = await prisma.word.update({
-        where: {
-            id: +id
-        },
-        data: {
-            title,
-            image,
-            audio,
-            catID
-        }
-    })
-    res.json(word)
+    try {
+        const word = await prisma.word.update({
+            where: {
+                id: +id
+            },
+            data: {
+                title,
+                image,
+                audio,
+                catID
+            }
+        })
+        res.json(word)
+    } catch {
+        res.status(500).send("Something broke")
+    }
+    
 })
 
 app.delete('/word/:id',async (req, res) => {
     let id = +req.params.id
-    const word = await prisma.word.delete({
+    try {
+        const word = await prisma.word.delete({
+            where: {
+                id
+            }
+        })
+        res.json(word)
+    } catch {
+        res.status(500).send("Something broke")
+    }
+    
+})
+
+app.get('/category', async (req, res) => {
+    const categories = await prisma.category.findMany({
+        include: {
+            words: true
+        }
+    })       
+    res.json(categories)
+})
+
+
+app.post('/category',async (req, res) => {
+    const { name, thumbnail, audio } = req.body
+    try {
+        const category = await prisma.category.create({
+            data: {
+                name,
+                thumbnail,
+                audio
+            }
+        })
+        res.json(category)
+    } catch {
+        res.status(500).send("Something broke")
+    }
+    
+
+})
+
+app.put('/category/:id', async (req, res) => {
+    try {
+        const id = +req.params.id
+        const { name, thumbnail, audio } = req.body
+
+        const category = await prisma.category.update({
+        where: {
+            id
+        },
+        data: {
+            name,
+            thumbnail,
+            audio
+        }
+        })
+
+        res.json(category)
+    } catch {
+        res.status(500).send("Something broke")
+    }
+    
+})
+
+app.delete('/category/:id', async (req, res) => {
+    try {
+        const id = +req.params.id
+    await prisma.word.deleteMany({
+         where: {
+             catID: id
+         }
+     })
+
+    const categories = await prisma.category.delete({
         where: {
             id
         }
     })
-    res.json(word)
-})
 
-app.post('/category',async (req, res) => {
-    const { name, thumbnail } = req.body
-    const category = await prisma.category.create({
-        data: {
-            name,
-            thumbnail
-        }
-    })
-    res.json(category)
-
+    res.json(categories)
+    } catch {
+        res.status(500).send("Something broke")
+    }
+    
 })
 
 
